@@ -1,5 +1,6 @@
 #include "so_long.h"
 
+
 void validate_map(game_t *game) {
     if (!game->map || game->map_height == 0 || game->map_width == 0)
         error_exit("Mapa no válido.");

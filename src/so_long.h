@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <string.h>
 
-#define TILE_SIZE 40
+#define TILE_SIZE 100
 
 typedef struct {
     void *img;
@@ -42,6 +42,7 @@ void validate_map(game_t *game);
 char **read_map(const char *filename, int *width, int *height);
 void free_map(char **map, int height);
 void load_texture(game_t *game, texture_t *texture, const char *file);
+int key_press(int keycode, game_t *game);
 
 #endif // SO_LONG_H
 
