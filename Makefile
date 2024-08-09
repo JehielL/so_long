@@ -3,56 +3,45 @@ NAME        = so_long
 
 # Compilador y flags
 CC          = gcc
-FLAGS       = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS      = -Wall -Wextra -Werror -g -fsanitize=address
 MLX_DIR     = minilibx-linux
-LFT         = utils/libft/libft.a
-INC         = -I ./utils/libft -I ./minilibx-linux
+LFT_DIR     = utils/libft
+GN_DIR      = utils/gnl
+INC         = -I ./utils/libft -I ./minilibx-linux -I ./utils/gnl
 LIB         = -L ./utils/libft -lft -L ./minilibx-linux -lmlx -lXext -lX11 -lm -lz
 
 # Archivos fuente y objetos
-SRC         = src/so_long.c src/game.c src/map.c src/render.c src/textures.c utils/gnl/get_next_line.c utils/gnl/get_next_line_utils.c 
-OBJ         = $(SRC:src/%.c=obj/%.o)
+SRC         = src/so_long.c src/game.c src/map.c src/render.c src/textures.c \
+              $(GN_DIR)/get_next_line.c $(GN_DIR)/get_next_line_utils.c
+OBJ         = $(SRC:.c=.o)
 
 # Regla principal
-all:        $(MLX_DIR)/libmlx.a $(LFT) obj $(NAME)
-		@echo " [ OK ] | Todos los componentes se han compilado con exito!"
+all:        $(NAME)
 
 # Compilar el ejecutable
 $(NAME):    $(OBJ)
-		$(CC) $(FLAGS) -o $@ $^ $(LIB)
-		@echo " [ OK ] | Ejecutable $(NAME) Construido con exito!"
-
-# Compilar MinilibX
-$(MLX_DIR)/libmlx.a:
-		@echo " [ .. ] | Compilando minilibx.."
-		@make -s -C $(MLX_DIR)
-		@echo " [ OK ] | Minilibx compilada con exito!"
-
-# Compilar libft
-$(LFT):
+		@echo " [ .. ] | Compilando MinilibX.."
+		@make -C $(MLX_DIR)
 		@echo " [ .. ] | Compilando libft.."
-		@make -s -C utils/libft
-		@echo " [ OK ] | Libft compilada con exito!"
-
-# Crear directorio de objetos
-obj:
-		@mkdir -p obj
+		@make -C $(LFT_DIR)
+		$(CC) $(CFLAGS) -o $@ $^ $(LIB)
+		@echo " [ OK ] | Ejecutable $(NAME) construido con éxito!"
 
 # Regla para compilar cada archivo fuente en objeto
-obj/%.o: src/%.c
-		$(CC) $(FLAGS) $(INC) -c $< -o $@
-		@echo " [ OK ] | Compiled $<"
+%.o: %.c
+		@mkdir -p obj
+		$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 # Limpiar archivos objetos y ejecutable
 clean:
-		@make -s clean -C utils/libft
-		@rm -rf $(OBJ) obj
-		@echo " [ OK ] | Archivos Objeto removidos con exito."
+		@make -C $(LFT_DIR) clean
+		@rm -f $(OBJ)
+		@echo " [ OK ] | Archivos objeto eliminados."
 
 fclean: clean
-		@make -s clean -C $(MLX_DIR)
-		@rm -rf $(NAME)
-		@echo " [ OK ] | Binary file removed."
+		@make -C $(MLX_DIR) clean
+		@rm -f $(NAME)
+		@echo " [ OK ] | Ejecutable eliminado."
 
 # Recompilar todo
 re: fclean all

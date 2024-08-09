@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <string.h>
 
-#define TILE_SIZE 100
+#define TILE_SIZE 40
 
 typedef struct {
     void *img;
