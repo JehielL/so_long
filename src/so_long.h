@@ -8,6 +8,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
+#include "../utils/ft_printf_42/ft_printf.h"
+#include "../utils/gnl/get_next_line.h"
 
 #define TILE_SIZE 40
 

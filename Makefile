@@ -7,12 +7,15 @@ CFLAGS      = -Wall -Wextra -Werror -g -fsanitize=address
 MLX_DIR     = minilibx-linux
 LFT_DIR     = utils/libft
 GN_DIR      = utils/gnl
+FT_PRINTF 	= utils/ft_printf_42
 INC         = -I ./utils/libft -I ./minilibx-linux -I ./utils/gnl
 LIB         = -L ./utils/libft -lft -L ./minilibx-linux -lmlx -lXext -lX11 -lm -lz
 
 # Archivos fuente y objetos
 SRC         = src/so_long.c src/game.c src/map.c src/render.c src/textures.c \
-              $(GN_DIR)/get_next_line.c $(GN_DIR)/get_next_line_utils.c
+              $(GN_DIR)/get_next_line.c $(GN_DIR)/get_next_line_utils.c $(FT_PRINTF)/ft_printf.c  \
+			  $(FT_PRINTF)/ft_aux_pf.c $(FT_PRINTF)/ft_putchar_pf.c $(FT_PRINTF)/ft_puthex_pf.c $(FT_PRINTF)/ft_putnbr_pf.c \
+			  $(FT_PRINTF)/ft_putptr_pf.c $(FT_PRINTF)/ft_putstr_pf.c $(FT_PRINTF)/ft_putuint_pf.c 
 OBJ         = $(SRC:.c=.o)
 
 # Regla principal
@@ -29,7 +32,6 @@ $(NAME):    $(OBJ)
 
 # Regla para compilar cada archivo fuente en objeto
 %.o: %.c
-		@mkdir -p obj
 		$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 # Limpiar archivos objetos y ejecutable

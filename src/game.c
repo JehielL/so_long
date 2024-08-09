@@ -1,7 +1,7 @@
 #include "so_long.h"
 
 void error_exit(const char *message) {
-    printf("Error\n%s\n", message);
+    ft_printf("Error\n%s\n", message);
     exit(EXIT_FAILURE);
 }
 
@@ -25,21 +25,19 @@ int key_press(int keycode, game_t *game) {
             if (game->map[new_y][new_x] == 'C') {
                 game->collected++;
                 if (game->collected == game->collectables) {
-                    printf("Haz coleccionado todos los items!\n");
+                    ft_printf("Haz coleccionado todos los items!\n");
                 }
             }
             if (game->map[new_y][new_x] == 'E' && game->collected == game->collectables) {
                 printf("You won!\n");
                 exit(0);
             }
-
             game->map[game->player_y][game->player_x] = '0';
             game->player_x = new_x;
             game->player_y = new_y;
             game->map[game->player_y][game->player_x] = 'P';
             game->moves++;
-            printf("Movimientos realizados: %d\n", game->moves);
-
+            ft_printf("Movimientos realizados: %d\n", game->moves);
             mlx_clear_window(game->mlx, game->win);
             draw_map(game); // Necesitarás incluir render.c o su prototipo aquí
         }
