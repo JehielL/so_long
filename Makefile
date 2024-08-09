@@ -10,7 +10,7 @@ INC         = -I ./utils/libft -I ./minilibx-linux
 LIB         = -L ./utils/libft -lft -L ./minilibx-linux -lmlx -lXext -lX11 -lm -lz
 
 # Archivos fuente y objetos
-SRC         = src/so_long.c src/game.c src/map.c src/render.c src/textures.c
+SRC         = src/so_long.c src/game.c src/map.c src/render.c src/textures.c utils/gnl/get_next_line.c utils/gnl/get_next_line_utils.c 
 OBJ         = $(SRC:src/%.c=obj/%.o)
 
 # Regla principal
