@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlinarez <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jlinarez <jlinarez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:10:19 by jlinarez          #+#    #+#             */
-/*   Updated: 2024/04/25 18:29:44 by jlinarez         ###   ########.fr       */
+/*   Updated: 2024/08/12 12:45:06 by jlinarez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(char *s)
+int	ft_strlen12(char *s)
 {
-	size_t	i;
+	int	i;
 
 	if (!s)
 		return (0);
@@ -24,7 +24,7 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
-char	*ft_strchr(char *s, int c)
+char	*ft_strchr12(char *s, int c)
 {
 	unsigned int	i;
 
@@ -42,7 +42,7 @@ char	*ft_strchr(char *s, int c)
 	return (NULL);
 }
 
-void	*ft_calloc(size_t count, size_t size)
+void	*ft_calloc12(size_t count, size_t size)
 {
 	char	*mem;
 	size_t	i;
@@ -59,7 +59,7 @@ void	*ft_calloc(size_t count, size_t size)
 	return (mem);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin12(char *s1, char *s2)
 {
 	char	*new;
 	size_t	i;
@@ -67,9 +67,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	size_t	len_s1;
 	size_t	len_s2;
 
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
-	new = ft_calloc((len_s1 + len_s2 + 1), sizeof(char));
+	len_s1 = ft_strlen12(s1);
+	len_s2 = ft_strlen12(s2);
+	new = ft_calloc12((len_s1 + len_s2 + 1), sizeof(char));
 	i = 0;
 	j = 0;
 	if (new == NULL)

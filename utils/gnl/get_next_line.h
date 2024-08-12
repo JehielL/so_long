@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlinarez <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jlinarez <jlinarez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:11:10 by jlinarez          #+#    #+#             */
-/*   Updated: 2024/04/25 18:27:56 by jlinarez         ###   ########.fr       */
+/*   Updated: 2024/08/12 12:40:01 by jlinarez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 /*
 ** Funciones auxiliares para manipulación de cadenas
 */
-int		ft_strlen(char *s);
-char	*ft_strchr(char *s, int c);
-void	*ft_calloc(size_t count, size_t size);
-char	*ft_strjoin(char *s1, char *s2);
+int		ft_strlen12(char *s);
+char	*ft_strchr12(char *s, int c);
+void	*ft_calloc12(size_t count, size_t size);
+char	*ft_strjoin12(char *s1, char *s2);
 
 /*
 ** Función principal para obtener la siguiente línea de un descriptor de archivo

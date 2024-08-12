@@ -8,18 +8,31 @@ int close_game(game_t *game) {
     exit(0);
     return (0);
 }
+static int validate(char *file)
+{
+    int len = 0;
+    len = ft_strlen(file);
+
+    if(ft_strcmp(file + len - 5, "/.ber") == 0)
+        return(0);
+    if(ft_strcmp(file + len - 4, ".ber") == 0)
+        return (1);
+    return (0);
+}
 
 int main(int argc, char **argv) {
     if (argc != 2) {
-        printf("Usage: %s <map_file>\n", argv[0]);
+        ft_printf("Usage: %s <map_file>\n", argv[0]);
         return (1);
     }
 
     game_t game;
     game.mlx = mlx_init();
+    if(validate(argv[1]) == 0)
+        error_exit("map is invalid. its neccesary .ber extension");
+        
     if (!game.mlx)
         error_exit("Failed to initialize mlx.");
-
     game.map = read_map(argv[1], &game.map_width, &game.map_height);
     validate_map(&game);
 
@@ -32,10 +45,9 @@ int main(int argc, char **argv) {
     load_texture(&game, &game.collectable_texture, "textures/collectable_texture.xpm");
     load_texture(&game, &game.exit_texture, "textures/exit_texture.xpm");
     load_texture(&game, &game.empty_texture, "textures/empty_texture.xpm");
-
     draw_map(&game);
-
-    mlx_key_hook(game.win, key_press, &game);
+    // Actualiza la llamada para manejar la entrada de teclado
+    mlx_key_hook(game.win, handle_key_press, &game);
 
     // Hook para manejar el evento de cerrar la ventana (clic en la "X")
     mlx_hook(game.win, 17, 0, (int (*)(void *))close_game, &game);

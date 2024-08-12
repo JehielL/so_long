@@ -1,4 +1,3 @@
-// src/so_long.h
 #ifndef SO_LONG_H
 #define SO_LONG_H
 
@@ -10,6 +9,7 @@
 #include <string.h>
 #include "../utils/ft_printf_42/ft_printf.h"
 #include "../utils/gnl/get_next_line.h"
+#include "../utils/libft/libft.h"
 
 #define TILE_SIZE 40
 
@@ -37,14 +37,38 @@ typedef struct {
     texture_t empty_texture;
 } game_t;
 
+/* Función para imprimir mensajes de error y salir del programa. */
 void error_exit(const char *message);
+
+/* Función para dibujar una textura en el mapa del juego. */
 void draw_texture(game_t *game, int x, int y, texture_t texture);
+
+/* Función para dibujar el mapa en la ventana del juego. */
 void draw_map(game_t *game);
+
+/* Función para validar el mapa del juego. */
 void validate_map(game_t *game);
+
+/* Función para leer el mapa desde un archivo. */
 char **read_map(const char *filename, int *width, int *height);
+
+/* Función para liberar la memoria del mapa. */
 void free_map(char **map, int height);
+
+/* Función para cargar texturas desde archivos de imagen. */
 void load_texture(game_t *game, texture_t *texture, const char *file);
-int key_press(int keycode, game_t *game);
+
+/* Función para procesar el movimiento del jugador en el mapa. */
+void process_movement(int new_x, int new_y, game_t *game);
+
+/* Función para manejar las presiones de teclas. */
+int handle_key_press(int keycode, game_t *game);
+
+/* Función para cerrar el juego de manera ordenada. */
+int close_game(game_t *game);
+
+/* Funciones adicionales para validar dimensiones y contenidos del mapa */
+void validate_map_dimensions(game_t *game);
+void validate_map_contents(game_t *game);
 
 #endif // SO_LONG_H
-
