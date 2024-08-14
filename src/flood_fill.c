@@ -1,199 +1,129 @@
 #include "so_long.h"
 
-// Función recursiva para llenar el mapa
+// Función recursiva para realizar el flood fill
 static void fill_recursive(char **tab, t_coordinates size, t_coordinates pos, char target) {
     t_coordinates next_pos;
 
-    // Verificar si la posición está fuera de los límites
     if (pos.y < 0 || pos.y >= size.y || pos.x < 0 || pos.x >= size.x)
         return;
 
-    // Verificar si la posición ya está marcada o no es del tipo objetivo
     if (tab[pos.y][pos.x] == 'F' || tab[pos.y][pos.x] != target)
         return;
 
-    // Marcar la posición como accesible
+    // Marcar la posición como visitada
     tab[pos.y][pos.x] = 'F';
 
-    // Llamar recursivamente a las posiciones adyacentes
+    // Recursión en las cuatro direcciones
     next_pos = (t_coordinates){pos.x, pos.y - 1}; // Arriba
     fill_recursive(tab, size, next_pos, target);
+
     next_pos = (t_coordinates){pos.x, pos.y + 1}; // Abajo
     fill_recursive(tab, size, next_pos, target);
+
     next_pos = (t_coordinates){pos.x - 1, pos.y}; // Izquierda
     fill_recursive(tab, size, next_pos, target);
+
     next_pos = (t_coordinates){pos.x + 1, pos.y}; // Derecha
     fill_recursive(tab, size, next_pos, target);
 }
 
-// Función para iniciar el llenado desde una posición
+// Función para iniciar el flood fill
 static void flood_fill(char **tab, t_coordinates size, t_coordinates begin) {
     char target = tab[begin.y][begin.x];
     fill_recursive(tab, size, begin, target);
 }
 
-// Liberar la memoria duplicada del mapa
-static void free_map_dup(char **map, int height) {
-    int i = 0;
-    while (i < height) {
-        free(map[i]);
-        i++;
+// Función para imprimir el mapa
+static void print_map(char **map, int height) {
+    for (int i = 0; i < height; i++) {
+        printf("%s\n", map[i]);
     }
-    free(map);
 }
 
-// Leer el mapa desde un archivo
-static char **read_map_dup(const char *filename, int *width, int *height) {
-    char **map;
-    int fd, i = 0;
-    char *line;
-
-    fd = open(filename, O_RDONLY);
-    if (fd < 0) {
-        perror("Error al abrir el archivo del mapa");
-        return NULL;
-    }
-
-    map = malloc(sizeof(char *) * 1000); // Ajustar según necesidades
-    if (!map) {
-        perror("Error al asignar memoria para el mapa");
-        close(fd);
-        return NULL;
-    }
-
-    while ((line = get_next_line(fd)) != NULL) {
-        int line_len = ft_strlen(line);
-        map[i] = malloc(line_len + 1);
-        if (!map[i]) {
-            perror("Error al asignar memoria para una línea del mapa");
-            free_map_dup(map, i);
-            close(fd);
-            return NULL;
-        }
-        strcpy(map[i], line);
-        free(line);
-        i++;
-    }
-    close(fd);
-
-    *width = ft_strlen(map[0]);
-    *height = i;
-    return map;
-}
-
-// Encontrar la posición inicial del jugador
+// Función para encontrar la posición inicial del jugador
 static t_coordinates find_starting_position(char **map, t_coordinates size) {
-    t_coordinates pos;
-    int row, col;
-
-    pos.y = -1;
-    pos.x = -1;
-    row = 0;
-    while (row < size.y) {
-        col = 0;
-        while (col < size.x) {
+    t_coordinates pos = {-1, -1};
+    for (int row = 0; row < size.y; row++) {
+        for (int col = 0; col < size.x; col++) {
             if (map[row][col] == 'P') {
                 pos.y = row;
                 pos.x = col;
                 return pos;
             }
-            col++;
         }
-        row++;
     }
     return pos;
 }
 
-// Encontrar la posición de salida
+// Función para encontrar la posición de salida
 static t_coordinates find_exit_position(char **map, t_coordinates size) {
-    t_coordinates pos;
-    int row, col;
-
-    pos.y = -1;
-    pos.x = -1;
-    row = 0;
-    while (row < size.y) {
-        col = 0;
-        while (col < size.x) {
+    t_coordinates pos = {-1, -1};
+    for (int row = 0; row < size.y; row++) {
+        for (int col = 0; col < size.x; col++) {
             if (map[row][col] == 'E') {
                 pos.y = row;
                 pos.x = col;
                 return pos;
             }
-            col++;
         }
-        row++;
     }
-    return pos; // Retorna una posición inválida si no se encuentra la salida
+    return pos;
 }
 
-// Verificar si el mapa es accesible
+// Función para verificar la accesibilidad del mapa
 int is_accessible(const char *filename) {
-    char **map_copy;
+    char **map;
     t_coordinates size;
     t_coordinates start;
-    t_coordinates exit_position;
     game_t game;
-    int i;
+
+    // Leer y validar el mapa
+    game.map = read_map(filename, &game.map_width, &game.map_height);
+    validate_map(&game);
 
     // Leer el mapa desde el archivo
-    map_copy = read_map_dup(filename, &size.x, &size.y);
-    if (!map_copy) {
+    map = read_map(filename, &size.x, &size.y);
+    if (!map) {
         ft_printf("Error al leer el mapa desde el archivo.\n");
         return 0;
     }
 
-    // Inicializar la estructura del juego
-    game.map = map_copy;
-    game.map_width = size.x;
-    game.map_height = size.y;
-    game.player_x = 0; // Inicializar con valores adecuados
-    game.player_y = 0; // Inicializar con valores adecuados
-    game.total_collectables = 0; // Inicializar con valores adecuados
-    game.collectables = NULL; // Inicializar con valores adecuados
-    game.exit_position = (t_coordinates){0, 0}; // Inicializar con valores adecuados
-
     // Encontrar la posición inicial del jugador
-    start = find_starting_position(map_copy, size);
+    start = find_starting_position(map, size);
     if (start.y == -1) {
         ft_printf("Posición inicial del jugador no encontrada.\n");
-        free_map_dup(map_copy, size.y);
+        free_map(map, size.y);
         return 0;
     }
 
-    flood_fill(map_copy, size, start);
+    flood_fill(map, size, start);
+
+    // Imprimir el mapa después de flood_fill
+    print_map(map, size.y);
 
     // Encontrar la posición de salida
-    exit_position = find_exit_position(map_copy, size);
-    if (exit_position.y == -1 || exit_position.x == -1) {
+    game.exit_position = find_exit_position(map, size);
+    if (game.exit_position.y == -1 || game.exit_position.x == -1) {
         ft_printf("Posición de salida no encontrada.\n");
-        free_map_dup(map_copy, size.y);
+        free_map(map, size.y);
         return 0;
     }
 
-    if (map_copy[exit_position.y][exit_position.x] != 'F') {
+    // Verificar si la posición de salida es accesible
+    if (map[game.exit_position.y][game.exit_position.x] != 'F') {
         ft_printf("Posición de salida no accesible. Coordenadas de salida: (%d, %d)\n",
-                  exit_position.x, exit_position.y);
-        free_map_dup(map_copy, size.y);
+                  game.exit_position.x, game.exit_position.y);
+        free_map(map, size.y);
         return 0;
     }
 
-    if (map_copy[game.player_y][game.player_x] != 'F') {
+    // Verificar si la posición inicial del jugador es accesible
+    if (map[start.y][start.x] != 'F') {
         ft_printf("Posición inicial del jugador no accesible.\n");
-        free_map_dup(map_copy, size.y);
+        free_map(map, size.y);
         return 0;
     }
 
-    i = 0;
-    while (i < game.total_collectables) {
-        if (map_copy[game.collectables[i].y][game.collectables[i].x] != 'F') {
-            ft_printf("Collectable en (%d, %d) no accesible.\n", game.collectables[i].x, game.collectables[i].y);
-            free_map_dup(map_copy, size.y);
-            return 0;
-        }
-        i++;
-    }
-
-    free_map_dup(map_copy, size.y);
+    free_map(map, size.y);
     return 1;
 }
