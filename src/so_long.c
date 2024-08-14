@@ -1,7 +1,7 @@
 #include "so_long.h"
 
 int close_game(game_t *game) {
-    printf("Juego cerrado con exito\n");  // Mensaje al cerrar la ventana
+    ft_printf("Juego cerrado con exito\n");  // Mensaje al cerrar la ventana
     free_map(game->map, game->map_height);
     if (game->win)
         mlx_destroy_window(game->mlx, game->win);

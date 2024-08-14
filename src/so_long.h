@@ -19,22 +19,30 @@ typedef struct {
     int height;
 } texture_t;
 
+// Estructura para coordenadas
+typedef struct {
+    int x;
+    int y;
+} t_coordinates;
+
 typedef struct {
     void *mlx;
     void *win;
     int player_x;
     int player_y;
-    int collectables;
     int collected;
     int moves;
     int map_width;
     int map_height;
-    char **map;
+    char **map; // Usar char ** para el mapa
     texture_t wall_texture;
     texture_t player_texture;
     texture_t collectable_texture;
     texture_t exit_texture;
     texture_t empty_texture;
+    t_coordinates exit_position;
+    t_coordinates *collectables;
+    int total_collectables; // Número total de coleccionables
 } game_t;
 
 /* Función para imprimir mensajes de error y salir del programa. */
@@ -70,5 +78,11 @@ int close_game(game_t *game);
 /* Funciones adicionales para validar dimensiones y contenidos del mapa */
 void validate_map_dimensions(game_t *game);
 void validate_map_contents(game_t *game);
+
+/* Función para verificar la accesibilidad del mapa */
+int is_accessible(const char *filename);
+
+/* Función para duplicar el mapa del juego */
+char **duplicate_map(game_t *game);
 
 #endif // SO_LONG_H

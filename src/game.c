@@ -28,16 +28,15 @@ int handle_key_press(int keycode, game_t *game) {
 void process_movement(int new_x, int new_y, game_t *game) {
     if (new_x >= 0 && new_x < game->map_width && new_y >= 0 && new_y < game->map_height) {
         char cell = game->map[new_y][new_x];
-        if (cell != '1') { // No wall
-            if (cell == 'E' && game->collected == game->collectables)
-            { 
-                ft_printf("Haz ganado!\n");
+        if (cell != '1') { // No es una pared
+            if (cell == 'E' && game->collected == game->total_collectables) { 
+                ft_printf("¡Has ganado!\n");
                 close_game(game);
             }
             if (cell == 'C') {
                 game->collected++;
-                if (game->collected == game->collectables) {
-                    ft_printf("Haz coleccionado todos los items!\n");
+                if (game->collected == game->total_collectables) {
+                    ft_printf("¡Has coleccionado todos los ítems!\n");
                 }
             }
             game->map[game->player_y][game->player_x] = '0';

@@ -32,7 +32,7 @@ void validate_map_dimensions(game_t *game) {
 void validate_map_contents(game_t *game) {
     int y = 0;
     int player_count = 0, exit_count = 0;
-    game->collectables = 0;
+    game->total_collectables = 0; // Asegúrate de usar el nombre correcto
     game->collected = 0;
 
     while (y < game->map_height) {
@@ -46,7 +46,7 @@ void validate_map_contents(game_t *game) {
             } else if (c == 'E') {
                 exit_count++;
             } else if (c == 'C') {
-                game->collectables++;
+                game->total_collectables++; // Uso correcto del campo de coleccionables
             } else if (c != '0' && c != '1') {
                 printf("Error: Carácter desconocido '0x%02x' en (%d, %d).\n", (unsigned char)c, y, x);
                 error_exit("Carácter desconocido en el mapa.");
@@ -56,7 +56,7 @@ void validate_map_contents(game_t *game) {
         y++;
     }
 
-    if (player_count != 1 || exit_count != 1 || game->collectables < 1) {
+    if (player_count != 1 || exit_count != 1 || game->total_collectables < 1) {
         error_exit("El mapa debe tener un jugador, una salida y al menos un coleccionable.");
     }
 }
