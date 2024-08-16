@@ -33,24 +33,23 @@ static void flood_fill(char **tab, t_coordinates size, t_coordinates begin) {
     fill_recursive(tab, size, begin, target);
 }
 
-// Función para imprimir el mapa
-static void print_map(char **map, int height) {
-    for (int i = 0; i < height; i++) {
-        printf("%s\n", map[i]);
-    }
-}
 
 // Función para encontrar la posición inicial del jugador
 static t_coordinates find_starting_position(char **map, t_coordinates size) {
     t_coordinates pos = {-1, -1};
-    for (int row = 0; row < size.y; row++) {
-        for (int col = 0; col < size.x; col++) {
+    int row = 0;
+    
+    while (row < size.y) {
+        int col = 0;
+        while (col < size.x) {
             if (map[row][col] == 'P') {
                 pos.y = row;
                 pos.x = col;
                 return pos;
             }
+            col++;
         }
+        row++;
     }
     return pos;
 }
@@ -58,14 +57,19 @@ static t_coordinates find_starting_position(char **map, t_coordinates size) {
 // Función para encontrar la posición de salida
 static t_coordinates find_exit_position(char **map, t_coordinates size) {
     t_coordinates pos = {-1, -1};
-    for (int row = 0; row < size.y; row++) {
-        for (int col = 0; col < size.x; col++) {
+    int row = 0;
+    
+    while (row < size.y) {
+        int col = 0;
+        while (col < size.x) {
             if (map[row][col] == 'E') {
                 pos.y = row;
                 pos.x = col;
                 return pos;
             }
+            col++;
         }
+        row++;
     }
     return pos;
 }

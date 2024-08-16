@@ -40,11 +40,11 @@ int main(int argc, char **argv) {
     if (!game.win)
         error_exit("Failed to create window.");
 
-    load_texture(&game, &game.wall_texture, "textures/wall_texture.xpm");
+    load_texture(&game, &game.wall_texture, "textures/wallandfire.xpm");
     load_texture(&game, &game.player_texture, "textures/player_texture.xpm");
-    load_texture(&game, &game.collectable_texture, "textures/collectable_texture.xpm");
+    load_texture(&game, &game.collectable_texture, "textures/collectables.xpm");
     load_texture(&game, &game.exit_texture, "textures/exit_texture.xpm");
-    load_texture(&game, &game.empty_texture, "textures/empty_texture.xpm");
+    load_texture(&game, &game.empty_texture, "textures/cesped.xpm");
     draw_map(&game);
     // Actualiza la llamada para manejar la entrada de teclado
     mlx_key_hook(game.win, handle_key_press, &game);

@@ -32,7 +32,7 @@ void validate_map_dimensions(game_t *game) {
 void validate_map_contents(game_t *game) {
     int y = 0;
     int player_count = 0, exit_count = 0;
-    game->total_collectables = 0; // Asegúrate de usar el nombre correcto
+    game->total_collectables = 0; 
     game->collected = 0;
 
     while (y < game->map_height) {
@@ -43,10 +43,31 @@ void validate_map_contents(game_t *game) {
                 player_count++;
                 game->player_x = x;
                 game->player_y = y;
+                // Validar si el jugador no está rodeado de paredes
+                if ((y > 0 && game->map[y-1][x] == '1') &&  // Arriba
+                    (y < game->map_height-1 && game->map[y+1][x] == '1') &&  // Abajo
+                    (x > 0 && game->map[y][x-1] == '1') &&  // Izquierda
+                    (x < game->map_width-1 && game->map[y][x+1] == '1')) {  // Derecha
+                    error_exit("El jugador está rodeado de paredes.");
+                }
             } else if (c == 'E') {
                 exit_count++;
+                // Validar si la salida no está rodeada de paredes
+                if ((y > 0 && game->map[y-1][x] == '1') &&  // Arriba
+                    (y < game->map_height-1 && game->map[y+1][x] == '1') &&  // Abajo
+                    (x > 0 && game->map[y][x-1] == '1') &&  // Izquierda
+                    (x < game->map_width-1 && game->map[y][x+1] == '1')) {  // Derecha
+                    error_exit("La salida está rodeada de paredes.");
+                }
             } else if (c == 'C') {
-                game->total_collectables++; // Uso correcto del campo de coleccionables
+                game->total_collectables++;
+                // Validar si el coleccionable no está rodeado de paredes
+                if ((y > 0 && game->map[y-1][x] == '1') &&  // Arriba
+                    (y < game->map_height-1 && game->map[y+1][x] == '1') &&  // Abajo
+                    (x > 0 && game->map[y][x-1] == '1') &&  // Izquierda
+                    (x < game->map_width-1 && game->map[y][x+1] == '1')) {  // Derecha
+                    error_exit("Un coleccionable está rodeado de paredes.");
+                }
             } else if (c != '0' && c != '1') {
                 printf("Error: Carácter desconocido '0x%02x' en (%d, %d).\n", (unsigned char)c, y, x);
                 error_exit("Carácter desconocido en el mapa.");
