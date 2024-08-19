@@ -3,7 +3,7 @@ NAME        = so_long
 
 # Compilador y flags
 CC          = gcc
-CFLAGS      = -Wall -Wextra -Werror -g -fsanitize=address 
+CFLAGS = -Wall -Wextra -Werror -g
 MLX_DIR     = minilibx-linux
 LFT_DIR     = utils/libft
 GN_DIR      = utils/gnl
