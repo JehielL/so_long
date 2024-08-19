@@ -6,43 +6,43 @@
 /*   By: jlinarez <jlinarez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:49:44 by jlinarez          #+#    #+#             */
-/*   Updated: 2024/08/19 18:33:18 by jlinarez         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:28:26 by jlinarez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	validate_map_dimensions(game_t *game)
+void	validate_map_dimensions(t_game *game)
 {
 	int	y;
 	int	x;
 	int	height;
 
 	y = 0;
-	while (y < game->map_height)
+	while (y < game->map_h)
 	{
-		if (ft_strlen(game->map[y]) != game->map_width)
+		if (ft_strlen(game->map[y]) != game->map_w)
 			error_exit("El mapa no es rectangular.");
 		y++;
 	}
 	x = 0;
-	while (x < game->map_width)
+	while (x < game->map_w)
 	{
-		if (game->map[0][x] != '1' || game->map[game->map_height - 1][x] != '1')
+		if (game->map[0][x] != '1' || game->map[game->map_h - 1][x] != '1')
 			error_exit("El mapa debe estar rodeado de muros.");
 		x++;
 	}
 	height = 0;
-	while (height < game->map_height)
+	while (height < game->map_h)
 	{
 		if (game->map[height][0] != '1'
-			|| game->map[height][game->map_width - 1] != '1')
+			|| game->map[height][game->map_w - 1] != '1')
 			error_exit("El mapa debe estar rodeado de muros.");
 		height++;
 	}
 }
 
-void	validate_map_contents(game_t *game)
+void	validate_map_contents(t_game *game)
 {
 	int	y;
 	int	x;
@@ -54,10 +54,10 @@ void	validate_map_contents(game_t *game)
 	exit_count = 0;
 	game->total_collectables = 0;
 	game->collected = 0;
-	while (y < game->map_height)
+	while (y < game->map_h)
 	{
 		x = 0;
-		while (x < game->map_width)
+		while (x < game->map_w)
 		{
 			char	c;
 
@@ -68,27 +68,27 @@ void	validate_map_contents(game_t *game)
 				game->player_x = x;
 				game->player_y = y;
 				if ((y > 0 && game->map[y - 1][x] == '1')
-					&& (y < game->map_height - 1 && game->map[y + 1][x] == '1')
+					&& (y < game->map_h - 1 && game->map[y + 1][x] == '1')
 					&& (x > 0 && game->map[y][x - 1] == '1')
-					&& (x < game->map_width - 1 && game->map[y][x + 1] == '1'))
+					&& (x < game->map_w - 1 && game->map[y][x + 1] == '1'))
 					error_exit("El jugador está rodeado de paredes.");
 			}
 			else if (c == 'E')
 			{
 				exit_count++;
 				if ((y > 0 && game->map[y - 1][x] == '1')
-					&& (y < game->map_height - 1 && game->map[y + 1][x] == '1')
+					&& (y < game->map_h - 1 && game->map[y + 1][x] == '1')
 					&& (x > 0 && game->map[y][x - 1] == '1')
-					&& (x < game->map_width - 1 && game->map[y][x + 1] == '1'))
+					&& (x < game->map_w - 1 && game->map[y][x + 1] == '1'))
 					error_exit("La salida está rodeada de paredes.");
 			}
 			else if (c == 'C')
 			{
 				game->total_collectables++;
 				if ((y > 0 && game->map[y - 1][x] == '1')
-					&& (y < game->map_height - 1 && game->map[y + 1][x] == '1')
+					&& (y < game->map_h - 1 && game->map[y + 1][x] == '1')
 					&& (x > 0 && game->map[y][x - 1] == '1')
-					&& (x < game->map_width - 1 && game->map[y][x + 1] == '1'))
+					&& (x < game->map_w - 1 && game->map[y][x + 1] == '1'))
 					error_exit("Un coleccionable está rodeado de paredes.");
 			}
 			else if (c != '0' && c != '1')
@@ -105,9 +105,9 @@ void	validate_map_contents(game_t *game)
 		error_exit("El mapa debe tener un jugador, una salida y al menos un coleccionable.");
 }
 
-void	validate_map(game_t *game)
+void	validate_map(t_game *game)
 {
-	if (!game->map || game->map_height <= 0 || game->map_width <= 0)
+	if (!game->map || game->map_h <= 0 || game->map_w <= 0)
 		error_exit("Mapa no válido.");
 	validate_map_dimensions(game);
 	validate_map_contents(game);

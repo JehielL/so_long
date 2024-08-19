@@ -6,7 +6,7 @@
 /*   By: jlinarez <jlinarez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:49:44 by jlinarez          #+#    #+#             */
-/*   Updated: 2024/08/19 18:29:00 by jlinarez         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:19:25 by jlinarez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,44 +97,24 @@ int	is_accessible(const char *filename)
 	char			**map;
 	t_coordinates	size;
 	t_coordinates	start;
-	game_t			game;
+	t_game			game;
 
-	game.map = read_map(filename, &game.map_width, &game.map_height);
-	validate_map(&game);
 	map = read_map(filename, &size.x, &size.y);
-	if (!map)
-	{
-		ft_printf("Error al leer el mapa desde el archivo.\n");
-		return (0);
-	}
+	validate_map(&game);
 	start = find_starting_position(map, size);
-	if (start.y == -1)
+	game.exit_position = find_exit_position(map, size);
+	if (start.y == -1 || game.exit_position.y == -1
+		|| map[start.y][start.x] != 'F'
+		|| map[game.exit_position.y][game.exit_position.x] != 'F')
 	{
-		ft_printf("Posición inicial del jugador no encontrada.\n");
+		if (start.y == -1)
+			ft_printf("Posición inicial del jugador no encontrada.\n");
+		else
+			ft_printf("Posición de salida no encontrada/accesible.\n");
 		free_map(map, size.y);
 		return (0);
 	}
 	flood_fill(map, size, start);
-	game.exit_position = find_exit_position(map, size);
-	if (game.exit_position.y == -1 || game.exit_position.x == -1)
-	{
-		ft_printf("Posición de salida no encontrada.\n");
-		free_map(map, size.y);
-		return (0);
-	}
-	if (map[game.exit_position.y][game.exit_position.x] != 'F')
-	{
-		ft_printf("Posición de salida no accesible. Coordenadas de salida: (%d, %d)\n",
-			game.exit_position.x, game.exit_position.y);
-		free_map(map, size.y);
-		return (0);
-	}
-	if (map[start.y][start.x] != 'F')
-	{
-		ft_printf("Posición inicial del jugador no accesible.\n");
-		free_map(map, size.y);
-		return (0);
-	}
 	free_map(map, size.y);
 	return (1);
 }

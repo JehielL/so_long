@@ -6,16 +6,16 @@
 /*   By: jlinarez <jlinarez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:49:44 by jlinarez          #+#    #+#             */
-/*   Updated: 2024/08/19 18:35:03 by jlinarez         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:49:59 by jlinarez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	close_game(game_t *game)
+int	close_game(t_game *game)
 {
 	ft_printf("Juego cerrado con exito\n");
-	free_map(game->map, game->map_height);
+	free_map(game->map, game->map_h);
 	if (game->win)
 		mlx_destroy_window(game->mlx, game->win);
 	exit(0);
@@ -36,7 +36,7 @@ static int	validate(char *file)
 
 int	main(int argc, char **argv)
 {
-	game_t	game;
+	t_game	game;
 
 	if (argc != 2)
 	{
@@ -48,10 +48,10 @@ int	main(int argc, char **argv)
 		error_exit("map is invalid. its necessary .ber extension");
 	if (!game.mlx)
 		error_exit("Failed to initialize mlx.");
-	game.map = read_map(argv[1], &game.map_width, &game.map_height);
+	game.map = read_map(argv[1], &game.map_w, &game.map_h);
 	validate_map(&game);
-	game.win = mlx_new_window(game.mlx, game.map_width * TILE_SIZE,
-			game.map_height * TILE_SIZE, "So Long");
+	game.win = mlx_new_window(game.mlx, game.map_w * T_SIZE,
+			game.map_h * T_SIZE, "So Long");
 	if (!game.win)
 		error_exit("Failed to create window.");
 	load_texture(&game, &game.wall_texture, "textures/wallandfire.xpm");
@@ -63,6 +63,6 @@ int	main(int argc, char **argv)
 	mlx_key_hook(game.win, handle_key_press, &game);
 	mlx_hook(game.win, 17, 0, (int (*)(void *))close_game, &game);
 	mlx_loop(game.mlx);
-	free_map(game.map, game.map_height);
+	free_map(game.map, game.map_h);
 	return (0);
 }

@@ -3,7 +3,7 @@ NAME        = so_long
 
 # Compilador y flags
 CC          = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS      = -Wall -Wextra -Werror -g
 MLX_DIR     = minilibx-linux
 LFT_DIR     = utils/libft
 GN_DIR      = utils/gnl
@@ -61,4 +61,9 @@ fclean: clean
 # Recompilar todo
 re: fclean all
 
-.PHONY: all clean fclean re
+# Ejecutar el programa con Valgrind
+valgrind: all
+		@echo " [ .. ] | Ejecutando el programa con Valgrind.."
+		@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./$(NAME)
+
+.PHONY: all clean fclean re valgrind
