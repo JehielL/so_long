@@ -6,7 +6,7 @@
 /*   By: jlinarez <jlinarez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:49:44 by jlinarez          #+#    #+#             */
-/*   Updated: 2024/08/19 20:19:49 by jlinarez         ###   ########.fr       */
+/*   Updated: 2024/08/22 17:27:23 by jlinarez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	handle_key_press(int keycode, t_game *game)
 		new_y++;
 	else if (keycode == 100)
 		new_x++;
-	process_movement(new_x, new_y, game);
+	if (new_x != game->player_x || new_y != game->player_y)
+		process_movement(new_x, new_y, game);
 	return (0);
 }
 
