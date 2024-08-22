@@ -6,7 +6,7 @@
 /*   By: jlinarez <jlinarez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:13:56 by jlinarez          #+#    #+#             */
-/*   Updated: 2024/08/12 12:45:36 by jlinarez         ###   ########.fr       */
+/*   Updated: 2024/08/22 17:06:09 by jlinarez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jlinarez <jlinarez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 14:42:10 by jlinarez          #+#    #+#             */
-/*   Updated: 2024/08/22 16:26:55 by jlinarez         ###   ########.fr       */
+/*   Updated: 2024/08/22 17:11:37 by jlinarez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	update_map(char ***map, int *line_count, int *max_width, char *line)
 {
 	int	len;
 	int	current_width;
+	int	old_size;
 
 	len = ft_strlen(line);
 	if (len > 0 && line[len - 1] == '\n')
@@ -55,7 +56,8 @@ void	update_map(char ***map, int *line_count, int *max_width, char *line)
 	current_width = ft_strlen(line);
 	if (current_width > *max_width)
 		*max_width = current_width;
-	*map = realloc(*map, (*line_count + 1) * sizeof(char *));
+	old_size = (*line_count) * sizeof(char *);
+	*map = ft_realloc(*map, old_size, (*line_count + 1) * sizeof(char *));
 	if (!*map)
 		error_exit("Memory allocation error.");
 	(*map)[*line_count] = line;
