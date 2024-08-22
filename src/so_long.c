@@ -6,7 +6,7 @@
 /*   By: jlinarez <jlinarez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:49:44 by jlinarez          #+#    #+#             */
-/*   Updated: 2024/08/19 20:49:59 by jlinarez         ###   ########.fr       */
+/*   Updated: 2024/08/22 16:16:52 by jlinarez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,10 @@ int	main(int argc, char **argv)
 	t_game	game;
 
 	if (argc != 2)
-	{
-		ft_printf("Usage: %s <map_file>\n", argv[0]);
-		return (1);
-	}
-	game.mlx = mlx_init();
+		return (ft_printf("Usage: %s <map_file>\n", argv[0]), 1);
 	if (validate(argv[1]) == 0)
 		error_exit("map is invalid. its necessary .ber extension");
+	game.mlx = mlx_init();
 	if (!game.mlx)
 		error_exit("Failed to initialize mlx.");
 	game.map = read_map(argv[1], &game.map_w, &game.map_h);
@@ -64,5 +61,4 @@ int	main(int argc, char **argv)
 	mlx_hook(game.win, 17, 0, (int (*)(void *))close_game, &game);
 	mlx_loop(game.mlx);
 	free_map(game.map, game.map_h);
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jlinarez <jlinarez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:49:44 by jlinarez          #+#    #+#             */
-/*   Updated: 2024/08/19 20:19:13 by jlinarez         ###   ########.fr       */
+/*   Updated: 2024/08/22 16:27:24 by jlinarez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ typedef struct t_game
 	int				moves;
 	int				map_w;
 	int				map_h;
+	int				player_count;
+	int				exit_count;
 	char			**map;
 	t_texture		wall_texture;
 	t_texture		player_texture;
@@ -59,44 +61,50 @@ typedef struct t_game
 	int				total_collectables;
 }	t_game;
 
-/* Función para imprimir mensajes de error y salir del programa. */
+/* Function to print error messages and exit the program. */
 void	error_exit(const char *message);
 
-/* Función para dibujar una textura en el mapa del juego. */
+/* Function to draw a texture on the game map. */
 void	draw_texture(t_game *game, int x, int y, t_texture texture);
 
-/* Función para dibujar el mapa en la ventana del juego. */
+/* Function to draw the map in the game window. */
 void	draw_map(t_game *game);
 
-/* Función para validar el mapa del juego. */
+/* Function to validate the game map. */
 void	validate_map(t_game *game);
 
-/* Función para leer el mapa desde un archivo. */
+/* Function to read the map from a file. */
 char	**read_map(const char *filename, int *width, int *height);
 
-/* Función para liberar la memoria del mapa. */
+/* Function to free the memory of the map. */
 void	free_map(char **map, int height);
 
-/* Función para cargar texturas desde archivos de imagen. */
+/* Function to load textures from image files. */
 void	load_texture(t_game *game, t_texture *texture, const char *file);
 
-/* Función para procesar el movimiento del jugador en el mapa. */
+/* Function to process player movement on the map. */
 void	process_movement(int new_x, int new_y, t_game *game);
 
-/* Función para manejar las presiones de teclas. */
+/* Function to handle key presses. */
 int		handle_key_press(int keycode, t_game *game);
 
-/* Función para cerrar el juego de manera ordenada. */
+/* Function to close the game properly. */
 int		close_game(t_game *game);
 
-/* Funciones adicionales para validar dimensiones y contenidos del mapa. */
+/* Additional functions to validate map dimensions and contents. */
 void	validate_map_dimensions(t_game *game);
 void	validate_map_contents(t_game *game);
 
-/* Función para verificar la accesibilidad del mapa. */
+/* Function to check map accessibility. */
 int		is_accessible(const char *filename);
 
-/* Función para duplicar el mapa del juego. */
+/* Function to duplicate the game map. */
 char	**duplicate_map(t_game *game);
+
+/* Functions to inspect player, collectable, and exit positions. */
+void	inspect_player_position(t_game *game, int x, int y);
+void	inspect_collectable_position(t_game *game, int x, int y);
+void	inspect_exit_position(t_game *game, int x, int y);
+void	update_map(char ***map, int *line_count, int *max_width, char *line);
 
 #endif

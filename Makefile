@@ -3,7 +3,7 @@ NAME        = so_long
 
 # Compilador y flags
 CC          = gcc
-CFLAGS      = -Wall -Wextra -Werror -g
+CFLAGS      = -Wall -Wextra -Werror -g -fsanitize=address
 MLX_DIR     = minilibx-linux
 LFT_DIR     = utils/libft
 GN_DIR      = utils/gnl
@@ -18,7 +18,7 @@ RESET       = \033[0m
 CHECK_MARK  = \033[1;32m✔\033[0m
 
 # Archivos fuente y objetos
-SRC         = src/so_long.c src/game.c src/map.c src/render.c src/textures.c \
+SRC         = src/so_long.c src/game.c src/map.c src/render.c src/textures.c src/inspects.c\
               $(GN_DIR)/get_next_line.c $(GN_DIR)/get_next_line_utils.c $(FT_PRINTF)/ft_printf.c  \
               $(FT_PRINTF)/ft_aux_pf.c $(FT_PRINTF)/ft_putchar_pf.c $(FT_PRINTF)/ft_puthex_pf.c $(FT_PRINTF)/ft_putnbr_pf.c \
               $(FT_PRINTF)/ft_putptr_pf.c $(FT_PRINTF)/ft_putstr_pf.c $(FT_PRINTF)/ft_putuint_pf.c 
@@ -56,7 +56,7 @@ clean:
 fclean: clean
 		@make -C $(MLX_DIR) clean > /dev/null
 		@rm -f $(NAME)
-		@echo " $(RED)[ OK ] Ejecutable $(NAME) eliminado.$(RESET)"
+		@echo " $(RED)[ OK ] $(CHECK_MARK) Ejecutable $(NAME) eliminado.$(RESET)"
 
 # Recompilar todo
 re: fclean all
