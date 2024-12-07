@@ -6,7 +6,7 @@
 /*   By: jlinarez <jlinarez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:49:44 by jlinarez          #+#    #+#             */
-/*   Updated: 2024/09/10 12:30:06 by jlinarez         ###   ########.fr       */
+/*   Updated: 2024/12/07 16:01:20 by jlinarez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,17 @@ static void	handle_special_cells(char cell, t_game *game)
 	{
 		if (game->collected == game->total_collectables)
 		{
-			ft_printf("¡Has ganado!\n");
+			ft_printf("¡You Won!\n");
 			close_game(game);
 		}
 		else
-			ft_printf("Debes recoger todos los coleccionables"
-				"antes de salir.\n");
+			ft_printf("You must take all the collectables before take exit.\n");
 	}
 	else if (cell == 'C')
 	{
 		game->collected++;
 		if (game->collected == game->total_collectables)
-			ft_printf("¡Has coleccionado todos los ítems!\n");
+			ft_printf("¡Already taken all the collectables!\n");
 	}
 }
 
@@ -79,7 +78,7 @@ void	process_movement(int new_x, int new_y, t_game *game)
 	game->player_y = new_y;
 	game->map[new_y][new_x] = 'P';
 	game->moves++;
-	ft_printf("Movimientos realizados: %d\n", game->moves);
+	ft_printf("Movements: %d\n", game->moves);
 	mlx_clear_window(game->mlx, game->win);
 	draw_map(game);
 }

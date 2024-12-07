@@ -6,7 +6,7 @@
 /*   By: jlinarez <jlinarez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:49:44 by jlinarez          #+#    #+#             */
-/*   Updated: 2024/08/22 16:16:52 by jlinarez         ###   ########.fr       */
+/*   Updated: 2024/12/07 15:59:17 by jlinarez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	close_game(t_game *game)
 {
-	ft_printf("Juego cerrado con exito\n");
+	ft_printf("Game closed with sucessfull\n");
 	free_map(game->map, game->map_h);
 	if (game->win)
 		mlx_destroy_window(game->mlx, game->win);

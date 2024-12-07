@@ -24,31 +24,31 @@ OBJ         = $(SRC:.c=.o)
 all:        $(NAME)
 
 $(NAME):    $(OBJ)
-		@echo " [ .. ] | Compilando MinilibX.."
+		@echo " [ .. ] | Compiling MinilibX.."
 		@make -C $(MLX_DIR) > /dev/null
-		@echo " $(GREEN)[ OK ] $(CHECK_MARK) MinilibX compilado con éxito!$(RESET)"
-		@echo " [ .. ] | Compilando libft.."
+		@echo " $(GREEN)[ OK ] $(CHECK_MARK) MinilibX Compiled succesfull!$(RESET)"
+		@echo " [ .. ] | Compiling  libft.."
 		@make -C $(LFT_DIR) > /dev/null
-		@echo " $(GREEN)[ OK ] $(CHECK_MARK) libft compilado con éxito!$(RESET)"
-		@echo " [ .. ] | Compilando GNL.."
-		@echo " $(GREEN)[ OK ] $(CHECK_MARK) GNL compilado con éxito!$(RESET)"
-		@echo " [ .. ] | Compilando ft_printf.."
-		@echo " $(GREEN)[ OK ] $(CHECK_MARK) ft_printf compilado con éxito!$(RESET)"
+		@echo " $(GREEN)[ OK ] $(CHECK_MARK) libft Compiled succesfull!$(RESET)"
+		@echo " [ .. ] | Compiling GNL.."
+		@echo " $(GREEN)[ OK ] $(CHECK_MARK) GNL Compiled succesfull!$(RESET)"
+		@echo " [ .. ] | Compiling ft_printf.."
+		@echo " $(GREEN)[ OK ] $(CHECK_MARK) ft_printf Compiled succesfull!$(RESET)"
 		@$(CC) $(CFLAGS) -o $@ $^ $(LIB)
-		@echo " $(GREEN)[ OK ] $(CHECK_MARK) Ejecutable $(NAME) construido con éxito!$(RESET)"
+		@echo " $(GREEN)[ OK ] $(CHECK_MARK) Your Game: $(NAME) Compiled succesfull!$(RESET)"
 %.o: %.c
 		@$(CC) $(CFLAGS) $(INC) -c $< -o $@ > /dev/null
-		@echo " $(GREEN)[ OK ] $(CHECK_MARK) Compilado: $<$(RESET)"
+		@echo " $(GREEN)[ OK ] $(CHECK_MARK) Compiled: $<$(RESET)"
 
 clean:
 		@make -C $(LFT_DIR) clean > /dev/null
 		@rm -f $(OBJ)
-		@echo " $(GREEN)[ OK ] $(CHECK_MARK) Archivos objeto eliminados.$(RESET)"
+		@echo " $(GREEN)[ OK ] $(CHECK_MARK) Objects Deleted.$(RESET)"
 
 fclean: clean
 		@make -C $(MLX_DIR) clean > /dev/null
 		@rm -f $(NAME)
-		@echo " $(RED)[ OK ] $(CHECK_MARK) Ejecutable $(NAME) eliminado.$(RESET)"
+		@echo " $(RED)[ OK ] $(CHECK_MARK) Game: $(NAME) Deleted.$(RESET)"
 
 re: fclean all
 
