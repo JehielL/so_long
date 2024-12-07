@@ -6,7 +6,7 @@
 /*   By: jlinarez <jlinarez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:10:40 by jlinarez          #+#    #+#             */
-/*   Updated: 2024/08/12 12:44:15 by jlinarez         ###   ########.fr       */
+/*   Updated: 2024/12/07 13:47:54 by jlinarez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,21 +95,3 @@ char	*get_next_line(int fd)
 	buffer = ft_next_line(buffer);
 	return (line);
 }
-
-/*int	main(void)
-{
-	int	fd;
-
-	fd = open("prueba.txt", O_RDONLY);
-	if (fd == -1)
-	{
-		perror ("open");
-		exit(EXIT_FAILURE);
-	}
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	close(fd);
-	return (0);
-}
-*/
